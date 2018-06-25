@@ -1,0 +1,12 @@
+{
+ "name": "isaax-motion",
+ "description": "Node.js - raspberry-pi",
+ "main": "server.js",
+ "author": "",
+ "license": "",
+ "language": "Node.js",
+ "scripts": {
+  "start": "node server.js"
+ },
+ "tag": ""
+}
