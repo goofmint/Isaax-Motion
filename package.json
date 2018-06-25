@@ -1,0 +1,24 @@
+{
+  "name": "socketmotion",
+  "version": "1.0.0",
+  "description": "Start of a project for [NodeCopter.js](http://nodecopter.com/)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rmetzler/SocketMotion.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rmetzler/SocketMotion/issues"
+  },
+  "homepage": "https://github.com/rmetzler/SocketMotion#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "socket.io": "^2.1.1"
+  }
+}

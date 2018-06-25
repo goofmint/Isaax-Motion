@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html class='no-js' lang='en'>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect(location.href);
+    </script>
+  </head>
+  <body>
+  <div class="main">
+    <h2>Device Orientation</h2>
+    <table>
+      <tr>
+        <td>左右の方向き</td>
+        <td id="doTiltLR"></td>
+      </tr>
+      <tr>
+        <td>前後の方向き</td>
+        <td id="doTiltFB"></td>
+      </tr>
+      <tr>
+        <td>方向</td>
+        <td id="doDirection"></td>
+      </tr>
+     </table>
+  </div>
+
+  <div class="container" style="-webkit-perspective: 300; perspective: 300;">
+    <img src="HTML5_Logo_512.png" id="imgLogo" class="logo">
+  </div>
+
+
+    <script type='text/javascript'>
+    //<![CDATA[
+    
+      let old_dir;
+      let old_tiltLR;
+      let old_tiltFB;
+     function deviceOrientationHandler(tiltLR, tiltFB, dir, motionUD) {
+       document.getElementById("doTiltLR"   ).innerHTML = Math.round(tiltLR);
+       document.getElementById("doTiltFB"   ).innerHTML = Math.round(tiltFB);
+       document.getElementById("doDirection").innerHTML = Math.round(dir);
+       // Apply the transform to the image
+       document.getElementById("imgLogo").style.webkitTransform = "rotate(" + 
+         tiltLR + "deg) rotate3d(1,0,0, " + (tiltFB * -1) + "deg)";
+       document.getElementById("imgLogo").style.MozTransform = "rotate(" + tiltLR + "deg)";
+       document.getElementById("imgLogo").style.transform = "rotate(" + tiltLR + 
+         "deg) rotate3d(1,0,0, " + (tiltFB * -1) + "deg)";
+      
+      dir = Math.round(dir);
+      tiltLR = Math.round(tiltLR * 10) / 10;
+      tiltFB = Math.round(tiltFB * 10) / 10;
+      
+      if (old_dir !==  dir ||
+        old_tiltLR !== tiltLR ||
+        old_tiltFB !== tiltFB
+      ) {
+        socket.emit('motion',{
+          'tiltLR': tiltLR,
+          'tiltFB': tiltFB,
+          'dir': dir
+        });
+      }
+      old_dir = dir;
+      old_tiltLR = tiltLR;
+      old_tiltFB = tiltFB;
+    }                                                     
+    
+    if (window.DeviceOrientationEvent) {
+      document.getElementById("doEvent").innerHTML = "DeviceOrientation";
+      // Listen for the deviceorientation event and handle the raw data
+      window.addEventListener('deviceorientation', function(eventData) {
+        var tiltLR = eventData.gamma;
+        var tiltFB = eventData.beta;
+        var dir = eventData.alpha
+        var motUD = null;
+
+        // call our orientation event handler
+        deviceOrientationHandler(tiltLR, tiltFB, dir, motUD);
+      }, false);
+    }
+  //]]>
+  </script>
+  </body>
+</html>
+
+
+
