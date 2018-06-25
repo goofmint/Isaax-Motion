@@ -67,7 +67,6 @@
     }                                                     
     
     if (window.DeviceOrientationEvent) {
-      document.getElementById("doEvent").innerHTML = "DeviceOrientation";
       // Listen for the deviceorientation event and handle the raw data
       window.addEventListener('deviceorientation', function(eventData) {
         var tiltLR = eventData.gamma;
